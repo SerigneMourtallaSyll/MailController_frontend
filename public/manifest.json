@@ -1,0 +1,31 @@
+{
+    "manifest_version": 3,
+    "name": "Controller Email",
+    "description": "Tracking emails and control read moment or date for user",
+    "version": "1.0",
+    "action": {
+        "default_popup": "index.html"
+    },
+    "permissions": [
+        "activeTab",
+        "https://mail.google.com/*",
+        "https://www.googleapis.com/*",
+        "identity"
+    ],
+    "oauth2": {
+        "client_id": "1Xlh_yax9Z-F1CzoWsiT0huEQ2AZQJ-BD9chamwgSZjP-IXBnapzM09B5",
+        "scopes": [
+            "https://www.googleapis.com/auth/gmail.readonly",
+            "https://www.googleapis.com/auth/gmail.modify"
+        ]
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+          "matches": ["https://mail.google.com/*"],
+          "js": ["content.js"]
+        }
+    ]
+}

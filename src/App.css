@@ -1,0 +1,243 @@
+:root{
+  --primaryColor: #333;
+  --secondaryColor: #f1f3f4;
+  --tertiaryColor: #006442;
+  --primaryTextColor: #fff;
+  --secondaryTextColor: #5f6368;
+  --tertiaryTextColor: #d6d5d5;
+  --primaryButtonColor: #6964ce;
+  --secondaryButtonColor: #007a50;
+  --tertyButtonColor: #423e87;
+}
+
+.sidebar{
+  background: var(--primaryColor);
+  height: 100vh;
+}
+
+.sidebar a{
+  color: var(--primaryTextColor);
+}
+
+.sidebar .active{
+  background-color: var(--tertiaryColor);
+  font-weight: 600;
+}
+
+.sidebar .child{
+  overflow-y: scroll;
+}
+
+.navbar{
+  background: var(--secondaryColor);
+}
+
+.navbar button{
+  background: var(--primaryButtonColor) !important;
+  color: var(--primaryTextColor) !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+.navbar svg{
+  font-size: 25px !important;
+}
+
+.navbar img{
+  width: 40px;
+  height: 40px;
+}
+
+.navbar .title{
+  color: var(--primaryColor);
+}
+
+.navbar .accountCircle{
+  font-size: 50px !important;
+  color: var(--tertyButtonColor);
+}
+
+.form-select{
+  box-shadow: none !important;
+}
+.emailProd .form-select{
+  background-color: var(--secondaryColor);
+  border: none;
+}
+
+.rightNav{
+  width: 25% !important;
+}
+
+select.form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('./assets/icons/caret-down-fill.svg');
+}
+
+.trackingMail select:focus{
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.trackingMail h5 , .clickReport h5{
+  color: var(--secondaryTextColor);
+}
+
+.trackingMail h4 , .clickReport h4 , h4{
+  color: var(--primaryColor);
+}
+
+.clickReport button , .campaigns button, .docs button, .templates button, .integer button, .trackingMail button{
+  background-color: var(--secondaryButtonColor);
+  color: var(--primaryTextColor);
+  border: none !important;
+  font-weight: 500;
+}
+
+.trackingMail .actions{
+  background-color: var(--secondaryColor);
+  color: var(--primaryColor);
+  cursor: pointer;
+}
+
+.trackingMail #btnAction{
+  background: var(--secondaryColor);
+}
+
+.trackingMail .destinataire{
+  background-color: var(--secondaryColor);
+}
+
+.trackingMail .btn-close{
+  background-color: transparent !important;
+}
+
+.trackingMail input{
+  border: none;
+  width: 70% !important;
+  border-bottom: 1px solid var(--primaryColor);
+  /* height: 100% !important; */
+}
+
+.trackingMail .emails input{
+  border-bottom: 0 !important;
+}
+
+.trackingMail .emails i{
+  font-size: 20px !important;
+}
+
+.trackingMail .emails button, .trackingMail .emails button:hover{
+  background-color: transparent !important;
+  color: var(--tertiaryTextColor);
+  border: none !important;
+}
+
+.trackingMail .emails .tippy-content{
+  padding: 0 !important;
+}
+
+.trackingMail .object{
+  border-bottom: 1px solid var(--primaryColor);
+  width: 100% !important;
+}
+
+.trackingMail input:focus, .trackingMail textarea:focus{
+  outline: none;
+  box-shadow: none !important;
+}
+
+.trackingMail textarea{
+  border: none !important;
+}
+
+.trackingMail button:hover{
+  border: 1px solid var(--secondaryButtonColor) !important;
+}
+
+.trackingMail .tippy-arrow::before{
+  color: var(--secondaryColor);
+}
+
+.trackingMail .actionsMenu{
+  background: var(--secondaryColor);
+  color: var(--primaryColor);
+  box-shadow: 0.5px 0.5px 0.6px 1px rgba(0,0,0,0.3);
+}
+
+.trackingMail .actionsMenu button{
+  background: transparent;
+  color: var(--primaryColor);
+}
+
+.trackingMail .actionsMenu button:hover{
+  border: none !important;
+}
+
+.clickReport iframe{
+  width: 40% !important;
+  min-height: 200px !important;
+}
+
+p{
+  color: var(--secondaryTextColor);
+}
+
+.templates th, .contact th, .trackingMail th{
+  color: var(--secondaryTextColor) !important;
+  font-size: 14px;
+}
+
+.templates thead, .contact thead, .trackingMail thead {
+  border-bottom: 0.5px solid var(--tertiaryTextColor);
+  opacity: 0.5;
+}
+
+.trackingMail tbody tr{
+  border-bottom: 0.5px solid var(--tertiaryTextColor);
+}
+
+.trackingMail p{
+  margin: 0;
+  padding: 0;
+}
+
+.contact i{
+  color: var(--secondaryTextColor) !important;
+}
+
+.contact .form-control::placeholder {
+  font-style: italic;
+}
+.contact .form-check input{
+  box-shadow: none;
+}
+
+.contact .input-group .form-control{
+  box-shadow: none;
+}
+
+.modal{
+  backdrop-filter: blur(1px);
+}
+.modal-content{
+  box-shadow: 1px 1px 4px 4px rgba(0,0,0,0.2);
+}
+
+.modal-body i {
+  font-size: 25px;
+  cursor: pointer;
+  color: var(--secondaryButtonColor);
+}
+
+.files{
+  border-left: 6px solid var(--secondaryButtonColor);
+  background-color: var(--secondaryColor);
+}
+
+.btn-close:hover, .btn-close:focus, .btn-close{
+  border: none !important;
+  box-shadow: none !important;
+}
