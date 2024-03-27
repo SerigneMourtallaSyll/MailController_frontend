@@ -4,13 +4,18 @@ import Tippy from "@tippyjs/react";
 
 function TrackMail() {
   const [emails, setEmails] = useState([]);
-  // État pour stocker la valeur sélectionnée de l'option
-  const [selectedOption, setSelectedOption] = useState("1");
+  const [selectedOption, setSelectedOption] = useState("2");
+  const [filter, setFilter] = useState("");
+  const [openEmail, setOpenEmail] = useState("");
 
   const fetchData = useCallback(() => {
     try {
       const unsubscribeEmails = async () => {
-        const response = await axios.get("https://api-django-email.onrender.com/get-email-tracking-data/");
+        let url = "https://api-django-email.onrender.com/get-email-tracking-data/";
+        if (selectedOption !== "2") {
+          url += `?opened=${selectedOption === "1" ? "1" : "0"}`;
+        }
+        const response = await axios.get(url);
         setEmails(response.data);
       };
 
@@ -18,11 +23,13 @@ function TrackMail() {
     } catch (error) {
       console.error("Error loading emails:", error);
     }
-  }, []);
+  }, [selectedOption]);
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+    const intervalId = setInterval(fetchData, 1000);
+    return () => clearInterval(intervalId);
+  }, [fetchData, selectedOption]);
 
   const renderMenu = () => (
     <div>

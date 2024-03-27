@@ -226,7 +226,7 @@ p{
   box-shadow: 1px 1px 4px 4px rgba(0,0,0,0.2);
 }
 
-.modal-body i {
+.modal-body i , .modal-body svg{
   font-size: 25px;
   cursor: pointer;
   color: var(--secondaryButtonColor);
@@ -235,6 +235,24 @@ p{
 .files{
   border-left: 6px solid var(--secondaryButtonColor);
   background-color: var(--secondaryColor);
+}
+
+.modal-body #formText i{
+  color: var(--secondaryColor) !important;
+}
+
+.modal-body #formText .active{
+  background: var(--secondaryButtonColor);
+  border-radius: 5px;
+}
+
+.modal-body #formText li{
+  cursor: pointer;
+}
+
+.modal-body img{
+  width: 130px;
+  height: 100px;
 }
 
 .btn-close:hover, .btn-close:focus, .btn-close{
