@@ -1,3 +1,4 @@
+@import "rsuite/dist/rsuite.css";
 :root{
   --primaryColor: #333;
   --secondaryColor: #f1f3f4;
@@ -13,10 +14,19 @@
 .sidebar{
   background: var(--primaryColor);
   height: 100vh;
+  position: fixed;
 }
 
 .sidebar a{
   color: var(--primaryTextColor);
+}
+
+.contentNavbar{
+  width: 100% !important;
+}
+
+.content{
+  margin-top: 4rem;
 }
 
 .sidebar .active{
@@ -96,6 +106,20 @@ select.form-select {
   font-weight: 500;
 }
 
+.campaigns button:hover{
+  border: 1px solid var(--secondaryButtonColor) !important;
+}
+
+.trackingMail .confirmDelete .btn-secondary, .trackingMail .insertLink .btn-secondary{
+  background-color: #6c757d;
+  border: none !important;
+}
+
+.trackingMail .confirmDelete .btn-danger{
+  background-color: #dc3545;
+  border: none !important;
+}
+
 .trackingMail .actions{
   background-color: var(--secondaryColor);
   color: var(--primaryColor);
@@ -110,26 +134,29 @@ select.form-select {
   background-color: var(--secondaryColor);
 }
 
-.trackingMail .btn-close{
+.trackingMail .btn-close, .campaigns .btn-close{
   background-color: transparent !important;
 }
 
-.trackingMail input{
+.trackingMail input, .campaigns input{
   border: none;
   width: 70% !important;
   border-bottom: 1px solid var(--primaryColor);
-  /* height: 100% !important; */
 }
 
-.trackingMail .emails input{
+.trackingMail .emails input, .campaigns .emails input{
   border-bottom: 0 !important;
+}
+
+.trackingMail .insertLink input, .campaigns .insertLink input{
+  border: 1px solid var(--primaryColor) !important;
 }
 
 .trackingMail .emails i{
   font-size: 20px !important;
 }
 
-.trackingMail .emails button, .trackingMail .emails button:hover{
+.trackingMail .emails button, .trackingMail .emails button:hover, .campaigns .emails button{
   background-color: transparent !important;
   color: var(--tertiaryTextColor);
   border: none !important;
@@ -139,17 +166,17 @@ select.form-select {
   padding: 0 !important;
 }
 
-.trackingMail .object{
+.trackingMail .object, .campaigns .object{
   border-bottom: 1px solid var(--primaryColor);
   width: 100% !important;
 }
 
-.trackingMail input:focus, .trackingMail textarea:focus{
+.trackingMail input:focus, .trackingMail textarea:focus, .campaigns input:focus, .campaigns textarea:focus{
   outline: none;
   box-shadow: none !important;
 }
 
-.trackingMail textarea{
+.trackingMail textarea, .campaigns textarea{
   border: none !important;
 }
 
@@ -157,17 +184,17 @@ select.form-select {
   border: 1px solid var(--secondaryButtonColor) !important;
 }
 
-.trackingMail .tippy-arrow::before{
+.trackingMail .tippy-arrow::before, .campaigns .tippy-arrow::before{
   color: var(--secondaryColor);
 }
 
-.trackingMail .actionsMenu{
+.trackingMail .actionsMenu, .campaigns .actionsMenu{
   background: var(--secondaryColor);
   color: var(--primaryColor);
   box-shadow: 0.5px 0.5px 0.6px 1px rgba(0,0,0,0.3);
 }
 
-.trackingMail .actionsMenu button{
+.trackingMail .actionsMenu button, .campaigns .actionsMenu button{
   background: transparent;
   color: var(--primaryColor);
 }
@@ -190,7 +217,7 @@ p{
   font-size: 14px;
 }
 
-.templates thead, .contact thead, .trackingMail thead {
+.templates thead, .contact thead, .trackingMail thead, .clickReport thead, .campaigns thead {
   border-bottom: 0.5px solid var(--tertiaryTextColor);
   opacity: 0.5;
 }
@@ -258,4 +285,9 @@ p{
 .btn-close:hover, .btn-close:focus, .btn-close{
   border: none !important;
   box-shadow: none !important;
+}
+
+.progress-bar-projet{
+  width: 60%;
+  height: 30px !important;
 }

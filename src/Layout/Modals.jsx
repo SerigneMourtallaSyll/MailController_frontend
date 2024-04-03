@@ -3,6 +3,9 @@ import React, { useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import Tippy from "@tippyjs/react";
 import { parse } from 'papaparse';
+import { Loader } from 'rsuite';
+import LinkModal from './LinkModal';
+
 
 function Modals(props) {
     const [objet, setObjet] = useState("");
@@ -10,16 +13,20 @@ function Modals(props) {
     const [document, setDocument] = useState([]);
     const [image, setImage] = useState([]);
     const [email, setEmail] = useState("");
+    const [link_url, setLinkUrl] = useState("");
+    const [linkContent, setLinkContent] = useState("");
     const [selectedImg, setSelectedImg] = useState("");
     const fileInputRef = useRef(null);
     const fileOutputRef = useRef(null);
     const imageInputRef = useRef(null);
-    const [fileName, setFileName] = useState([]);
+    const [showLinkModal, setShowLinkModal] = useState(false);
     const [isBold, setIsBold] = useState(false);
     const [isUnderline, setIsUnderline] = useState(false);
     const [isItalic, setIsItalic] = useState(false);
     const [textSize, setTextSize] = useState('normal');
     const [csvFileName, setCsvFileName] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleOutsideClick = (e) => {
         if (e.target.classList.contains("modal")) {
             props.onHide();
@@ -37,16 +44,21 @@ function Modals(props) {
             return emails;
         }
     };
+
+    const handleInsertLink = () => {
+        setShowLinkModal(true);
+    }
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        setIsLoading(true);
         try {
             const formData = new FormData();
             const formattedEmails = formatEmails(email);
             formData.append('email', formattedEmails);
             formData.append('message', message);
             formData.append('objet', objet);
+            formData.append('link_url', linkContent)
             document.forEach(file => formData.append('document', file));
             image.forEach(file => formData.append('image', file));
             
@@ -55,21 +67,27 @@ function Modals(props) {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log(res);
+            // console.log(res);
             toast.success('Email sent successfully!');
+            setObjet("")
+            setMessage("");
+            setSelectedImg("");
+            setEmail("");
+            setDocument([])
+            setImage([])
+            setLinkContent("");
             props.onHide();
         } catch (err) {
             console.log(err);
         }
+        setIsLoading(false);
     };
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files;
         const fileArray = Array.from(selectedFile);
-        // setFileName(selectedFile);
         if (selectedFile) {
             setDocument([...document, ...fileArray]);
-            // console.log([...document, ...fileArray])
         }
     };
 
@@ -142,6 +160,12 @@ function Modals(props) {
         setSelectedImg(updatedImages);
     };
 
+    const handleLinkChange = () => {
+        setLinkContent(link_url);
+        setShowLinkModal(false);
+        setLinkUrl("");
+    }
+
     const renderMenu = () => (
         <div>
             <input
@@ -194,6 +218,10 @@ function Modals(props) {
             </Tippy>
         </div>    
     )
+
+    const closeModal = () => {
+        setShowLinkModal(false);
+    };
 
     return (
         <div 
@@ -250,14 +278,15 @@ function Modals(props) {
                                 
                                 <div className='col py-2'>
                                     <textarea rows={5} className='border-none w-100' value={message} onChange={(e) => setMessage(e.target.value)} placeholder='Message' 
-                                    onMouseUp={(e) => console.log(e.target.value.substring(e.target.selectionStart, e.target.selectionEnd))}
-                                    style={{
-                                        fontWeight: isBold ? 'bold' : 'normal',
-                                        textDecoration: isUnderline ? 'underline' : 'none',
-                                        fontStyle: isItalic ? 'italic' : 'normal',
-                                        fontSize: textSize === 'small' ? '0.8em' : textSize === 'normal' ? '1em' : textSize === 'large' ? '1.2em' : '1.5em',
-                                    }}>
+                                        onMouseUp={(e) => console.log(e.target.value.substring(e.target.selectionStart, e.target.selectionEnd))}
+                                        style={{
+                                            fontWeight: isBold ? 'bold' : 'normal',
+                                            textDecoration: isUnderline ? 'underline' : 'none',
+                                            fontStyle: isItalic ? 'italic' : 'normal',
+                                            fontSize: textSize === 'small' ? '0.8em' : textSize === 'normal' ? '1em' : textSize === 'large' ? '1.2em' : '1.5em',
+                                        }}>
                                     </textarea>
+                                    {linkContent && <a href='#'>{linkContent}</a>}
                                 </div>
                                 <div className='col py-2'>
                                     <input type="file"
@@ -279,8 +308,13 @@ function Modals(props) {
                                         ))
                                     }
                                 </div>
-                                <div className='col-4 d-flex justify-content-between'>
-                                    <button className='btn rounded-pill' type='submit'>Envoyer</button>
+                                <div className={`${isLoading? 'col-8': 'col-4'} d-flex justify-content-between`}>
+                                    {isLoading? 
+                                    <button className='btn rounded-pill d-flex justify-content-between align-items-center' type='submit' style={{width: "max-content"}}>
+                                        <span>Envoi en cours </span>
+                                        <Loader />
+                                    </button> 
+                                    : <button className='btn rounded-pill' type='submit' style={{width: "max-content"}}>Envoyer</button>}
                                     <div className='col-8 d-flex justify-content-around align-items-center'>
                                         <Tippy content={"Insérer un document"} placement="top" arrow={false} interactive={true}>
                                             <i className="bi bi-paperclip" onClick={handleFileClick}></i>
@@ -289,7 +323,7 @@ function Modals(props) {
                                             <i className="bi bi-image" onClick={handleImgClick}></i>
                                         </Tippy>
                                         <Tippy content={"Insérer un lien"} placement="top" arrow={false} interactive={true}>
-                                            <i className="bi bi-link-45deg"></i>
+                                            <i className="bi bi-link-45deg" onClick={() => handleInsertLink()}></i>
                                         </Tippy>
                                         <Tippy content={"Options de mise en forme"} placement="top" arrow={false} interactive={true}>
                                             <Tippy content={optionsForm()} placement="top" arrow={false} interactive={true} trigger='click'>
@@ -303,6 +337,13 @@ function Modals(props) {
                     </div>
                 </div>
             </div>
+            <LinkModal
+                show={showLinkModal}
+                onClose={closeModal}
+                onConfirm={handleLinkChange}
+                value={link_url}
+                func={(e) => setLinkUrl(e.target.value)}
+            />
         </div>
     );
 }
