@@ -3,12 +3,16 @@ import React, { useCallback, useEffect, useState } from "react";
 import Tippy from "@tippyjs/react";
 import ConfirmDelete from "./ConfirmDelete";
 import EmailService from "../../service/EmailService";
+import EmailSkeleton from "./EmailSkeleton";
 
 function TrackMail() {
   const [emails, setEmails] = useState([]);
   const [selectedOption, setSelectedOption] = useState("2");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [emailIdToDelete, setEmailIdToDelete] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+
 
   const fetchData = useCallback(async() => {
     try {
@@ -16,6 +20,8 @@ function TrackMail() {
       setEmails(data);
     } catch (error) {
       console.error('Error loading emails:', error);
+    } finally {
+      setIsLoading(false);
     }
   }, [selectedOption]);
 
@@ -76,6 +82,9 @@ function TrackMail() {
         </select>
       </div>
       <div className="col-12 pt-5">
+      {isLoading ? (
+        <EmailSkeleton />
+      ) : (
         <div className="table-responsive">
           <table className="table table-borderless">
             <thead>
@@ -119,7 +128,7 @@ function TrackMail() {
               ))}
             </tbody>
           </table>
-        </div>
+        </div>)}
       </div>
       <ConfirmDelete 
         show={showDeleteModal}

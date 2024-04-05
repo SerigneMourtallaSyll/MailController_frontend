@@ -5,6 +5,7 @@ import Tippy from "@tippyjs/react";
 import { parse } from 'papaparse';
 import { Loader } from 'rsuite';
 import LinkModal from './LinkModal';
+import { Editor } from "primereact/editor";
 
 
 function Modals(props) {
@@ -20,12 +21,34 @@ function Modals(props) {
     const fileOutputRef = useRef(null);
     const imageInputRef = useRef(null);
     const [showLinkModal, setShowLinkModal] = useState(false);
-    const [isBold, setIsBold] = useState(false);
-    const [isUnderline, setIsUnderline] = useState(false);
-    const [isItalic, setIsItalic] = useState(false);
-    const [textSize, setTextSize] = useState('normal');
     const [csvFileName, setCsvFileName] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+
+
+    const header = (
+        <span className="ql-formats">
+            <select className="ql-size">
+                <option selected></option>
+                <option value="large"></option>
+                <option value="huge"></option>
+            </select>
+            <select className="ql-font">
+                <option selected></option>
+                <option value="serif"></option>
+                <option value="monospace"></option>
+            </select>
+            <button className="ql-bold" aria-label="Bold"></button>
+            <button className="ql-italic" aria-label="Italic"></button>
+            <button className="ql-underline" aria-label="Underline"></button>
+            <button className="ql-strike" aria-label="strike"></button>
+            <button className="ql-blockquote" aria-label="blockquote"></button>
+            <select className='ql-color'>
+            </select>
+            <select className='ql-background'>
+            </select>
+            <button className="ql-list" aria-label="list"></button>
+        </span>
+    );
 
     const handleOutsideClick = (e) => {
         if (e.target.classList.contains("modal")) {
@@ -184,40 +207,6 @@ function Modals(props) {
             </button>
         </div>
     );
-    
-    const size = () => (
-        <ul className='list-unstyled'>
-            <li onClick={() => setTextSize('small')} className=''>Petite</li>
-            <li onClick={() => setTextSize('normal')} className='fs-6'>Normal</li>
-            <li onClick={() => setTextSize('large')} className='fs-5'>Grande</li>
-            <li onClick={() => setTextSize('xlarge')} className='fs-4'>Très grande</li>
-        </ul>    
-    )
-
-    const optionsForm = () => (
-        <div className='d-flex justify-content-around align-items-center gap-1' id='formText'>
-            <span>
-                <Tippy content={"Gras"} placement="bottom" arrow={false} interactive={true}>
-                    <i className={`bi bi-type-bold ${isBold ? 'active' : ''}`} onClick={() => setIsBold(!isBold)}></i>
-                </Tippy>
-            </span>
-            <span>
-                <Tippy content={"Souligner"} placement="bottom" arrow={false} interactive={true}>
-                    <i className={`bi bi-type-underline ${isUnderline ? 'active' : ''}`} onClick={() => setIsUnderline(!isUnderline)}></i>
-                </Tippy>
-            </span>
-            <span>
-                <Tippy content={"Italique"} placement="bottom" arrow={false} interactive={true}>
-                    <i className={`bi bi-type-italic ${isItalic ? 'active' : ''}`} onClick={() => setIsItalic(!isItalic)}></i>
-                </Tippy>
-            </span>
-            <Tippy content={"Taille"} placement="bottom" arrow={false} interactive={true}>
-                <Tippy content={size()} placement="bottom" arrow={false} interactive={true} trigger='click'>
-                    <i className="bi bi-p-square-fill"></i>
-                </Tippy>
-            </Tippy>
-        </div>    
-    )
 
     const closeModal = () => {
         setShowLinkModal(false);
@@ -243,7 +232,7 @@ function Modals(props) {
                         <div className="row p-0">
                             <form onSubmit={handleSubmit} encType="multipart/form-data">
                                 <div className='col d-flex border-bottom justify-content-between emails'>
-                                    <input type="text" className="border-bottom" placeholder="Destinataires (séparés par des virgules)" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                    <input type="email" className="border-bottom" placeholder="Destinataires (séparés par des virgules)" value={email} onChange={(e) => setEmail(e.target.value)} required />
                                     <Tippy content={renderMenu()} placement="bottom" arrow={true} interactive={true} trigger="click" className="actionsMenu">
                                         <button className='btn d-flex justify-content-around align-items-center gap-2' type='button'>
                                             <span>
@@ -254,7 +243,7 @@ function Modals(props) {
                                     </Tippy>
                                 </div>
                                 <div className='col py-2'>
-                                    <input type="text" className="border-bottom object py-1" placeholder="Objet" value={objet} onChange={(e) => setObjet(e.target.value)} />
+                                    <input type="text" className="border-bottom object py-1" placeholder="Objet" value={objet} onChange={(e) => setObjet(e.target.value)} required/>
                                 </div>
                                 
                                 <input type="file"
@@ -277,15 +266,9 @@ function Modals(props) {
                                 }
                                 
                                 <div className='col py-2'>
-                                    <textarea rows={5} className='border-none w-100' value={message} onChange={(e) => setMessage(e.target.value)} placeholder='Message' 
-                                        onMouseUp={(e) => console.log(e.target.value.substring(e.target.selectionStart, e.target.selectionEnd))}
-                                        style={{
-                                            fontWeight: isBold ? 'bold' : 'normal',
-                                            textDecoration: isUnderline ? 'underline' : 'none',
-                                            fontStyle: isItalic ? 'italic' : 'normal',
-                                            fontSize: textSize === 'small' ? '0.8em' : textSize === 'normal' ? '1em' : textSize === 'large' ? '1.2em' : '1.5em',
-                                        }}>
-                                    </textarea>
+                                    <div className="card">
+                                        <Editor value={message} onTextChange={(e) => setMessage(e.htmlValue)} style={{ height: '150px' }} headerTemplate={header} />
+                                    </div>
                                     {linkContent && <a href='#'>{linkContent}</a>}
                                 </div>
                                 <div className='col py-2'>
@@ -324,11 +307,6 @@ function Modals(props) {
                                         </Tippy>
                                         <Tippy content={"Insérer un lien"} placement="top" arrow={false} interactive={true}>
                                             <i className="bi bi-link-45deg" onClick={() => handleInsertLink()}></i>
-                                        </Tippy>
-                                        <Tippy content={"Options de mise en forme"} placement="top" arrow={false} interactive={true}>
-                                            <Tippy content={optionsForm()} placement="top" arrow={false} interactive={true} trigger='click'>
-                                                <i className="bi bi-type"></i>
-                                            </Tippy>
                                         </Tippy>
                                     </div>
                                 </div>

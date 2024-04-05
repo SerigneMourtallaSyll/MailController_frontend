@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import EmailService from "../../service/EmailService";
+import CampagnSkeleton from "./CampagnSkeleton";
 
 function CampaignsComp() {
   const [selectedOption, setSelectedOption] = useState("2");
   const [emails, setEmails] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = useCallback(async() => {
       try {
@@ -11,6 +13,8 @@ function CampaignsComp() {
         setEmails(data.filter((email) => email.emails.length> 1));
       } catch (error) {
         console.error('Error loading emails:', error);
+      } finally {
+        setIsLoading(false);
       }
   }, [selectedOption]);
 
@@ -20,9 +24,12 @@ function CampaignsComp() {
       return () => clearInterval(intervalId);
   }, [fetchData, selectedOption]);
 
-  console.log(emails);
+  // console.log(emails);
   return (
     <div className="col-12 pt-5">
+    {isLoading ? (
+      <CampagnSkeleton />
+    ) : (
         <div className="table-responsive">
             <table className="table table-borderless">
                 <thead>
@@ -70,7 +77,7 @@ function CampaignsComp() {
                     ))}
                 </tbody>
             </table>
-        </div>
+        </div>)}
     </div>
   );
 }

@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import EmailService from '../../service/EmailService';
+import EmailSkeleton from '../EmailTracking/EmailSkeleton';
 
 function ClickReportTable() {
     const [selectedOption, setSelectedOption] = useState("2");
     const [emails, setEmails] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchData = useCallback(async() => {
         try {
@@ -11,7 +13,9 @@ function ClickReportTable() {
           setEmails(data.filter((email) => email.emails.find((mail) => mail.url)));
         } catch (error) {
           console.error('Error loading emails:', error);
-        }
+        } finally {
+            setIsLoading(false);
+          }
     }, [selectedOption]);
 
     useEffect(() => {
@@ -24,6 +28,9 @@ function ClickReportTable() {
 
   return (
     <div className="col-12 pt-5">
+       {isLoading ? (
+        <EmailSkeleton />
+        ) : (
         <div className="table-responsive">
             <table className="table table-borderless">
                 <thead>
@@ -63,7 +70,7 @@ function ClickReportTable() {
                     ))}
                 </tbody>
             </table>
-        </div>
+        </div>)}
     </div>
   )
 }

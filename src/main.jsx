@@ -13,6 +13,14 @@ import Integrations from './Pages/Integrations.jsx'
 import Team from './Pages/Team.jsx'
 import Templates from './Pages/Templates.jsx'
 import EmailTracking from './Pages/EmailTracking.jsx'
+import { PrimeReactProvider } from 'primereact/api';
+import 'primeflex/primeflex.css';  
+import 'primereact/resources/primereact.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import 'react-loading-skeleton/dist/skeleton.css'
+
+
+
 
 const route = createBrowserRouter([
   {
@@ -66,7 +74,9 @@ const route = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={route}>
-    </RouterProvider>
+    <PrimeReactProvider>
+      <RouterProvider router={route}>
+      </RouterProvider>
+    </PrimeReactProvider>
   </React.StrictMode>,
 )
